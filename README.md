@@ -32,8 +32,8 @@ Your feedback is invaluable to us as we strive to enhance our services continual
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ### Connect with Us
-- **Website**: [www.jrndabank.com](http://www.jrndabank.com)
-- **Email**: info@jrndabank.com
-- **Phone**: +55 21 1234-5678
+- **Website**: [www.jrndabank.com](http://www.jrndabank.com) (Currently offline)
+- **Email**: info@jrndabank.com (Currently offline)
+- **Phone**: +55 21 969648455
 
 Thank you for choosing JRNDA BANK for your banking needs. We look forward to serving you and simplifying your financial journey!
