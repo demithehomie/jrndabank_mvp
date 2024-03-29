@@ -1,178 +1,39 @@
-# bank-app
+# jrnda-mvp
 
->  Ruby on Rails 5 Application with HAML and PostgreSQL
+**JRNDA BANK**
 
-## Table of contents
-* [General info](#general-info)
-* [Screenshots](#screenshots)
-* [Technologies](#technologies)
-* [Setup](#setup)
-* [Features](#features)
-* [Status](#status)
-* [Inspiration](#inspiration)
-* [Contact](#contact)
+Welcome to JRNDA BANK, a fintech revolutionizing banking services with innovation and simplicity. This README provides a detailed overview of our fintech, its inception, purpose, and basic functionalities.
 
-## General info
-Simple banking application written in Rails 5 where a user can perform withdrawals and deposit transactions. The purpose is to document the current practices in terms of organizing javascript, api code (Rails) and command patterns for business rules.
+### About JRNDA BANK
+JRNDA BANK is a fintech company headquartered in Cabo Frio, located in the state of Rio de Janeiro, Brazil. Founded in 2017 at the regional office of TripleAVB, our mission is to provide accessible and efficient banking solutions to individuals and businesses.
 
-Bank account belongs to a client, a client can have many bank accounts.
+### Purpose
+At JRNDA BANK, we aim to simplify banking operations and make financial services more inclusive. Our focus is on leveraging technology to offer seamless experiences to our customers, enabling them to manage their finances effortlessly.
 
-I was learning how to create CRUD in Rails.
+### Basic Functionalities
+- **Account Management**: Customers can easily open and manage their accounts through our user-friendly interface.
+- **Transactions**: We facilitate various types of transactions including transfers, payments, and withdrawals, ensuring secure and swift processing.
+- **Customer Support**: Our dedicated customer support team is available to assist users with any queries or concerns they may have.
+- **Security**: We prioritize the security of our customers' information and transactions, implementing robust security measures to safeguard their data.
 
-## Screenshots
+### Getting Started
+To get started with JRNDA BANK, follow these simple steps:
+1. Sign up for an account on our website or mobile app.
+2. Complete the verification process to authenticate your identity.
+3. Once your account is verified, you can start exploring and utilizing our banking services.
 
-![Example screenshot](https://raw.githubusercontent.com/lapinskap/bank-app/master/img/screen4.jpg)
+### Contributing
+We welcome contributions from developers who are passionate about revolutionizing the fintech industry. If you're interested in contributing to JRNDA BANK, please refer to our contribution guidelines in the CONTRIBUTING.md file.
 
-When we click "Add new transaction" a charming Modal appears to our eyes:
+### Feedback
+Your feedback is invaluable to us as we strive to enhance our services continually. If you have any suggestions, questions, or concerns, please don't hesitate to reach out to us via email at feedback@jrndabank.com.
 
-![Example screenshot](https://raw.githubusercontent.com/lapinskap/bank-app/master/img/screen2.jpg)
+### License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-![Example screenshot](https://raw.githubusercontent.com/lapinskap/bank-app/master/img/screen3.jpg)
+### Connect with Us
+- **Website**: [www.jrndabank.com](http://www.jrndabank.com)
+- **Email**: info@jrndabank.com
+- **Phone**: +55 21 1234-5678
 
-## Technologies
-* Ruby on Rails 5
-* HAML
-* jQuery
-* PostgreSQL database
-
-## Setup
-
- ```
- $ git clone https://github.com/lapinskap/bank-app
- $ cd bank-app
- $ bundle install
- $ rails s
- ```
- ### Operations in terminal
- 
- #### Add a client:
- ```
- $ rails console
- $ Client.create!(first_name: "Juan", middle_name: "Pablo", last_name: "Fernandez", client_number: "42034823") 
- $ client = Client.last
- $ exit
- ```
- > Rails model will change clients name to uppercase letters
- 
- #### Create Bank Account:
- ```
- $ rails console
- $ BankAccount.create!(client: client, account_number: "000000001")
- $ exit
- ```
-> `client: client` <- client name defined while creating a client
-
-> default balance is $0.00
-
-#### Delete history of transactions: 
-```
-$ rails console
-$ AccountTransaction.destroy_all
-```
-or delete last transaction:
-
-```
-$ AccountTransaction.last.destroy!
-$ exit
-
-$ rails s
-```
-
-## Code Examples
-
-#### Module example
-app/models/account_transaction.rb
-```ruby
-class AccountTransaction < ApplicationRecord
-  belongs_to :bank_account
-
-  TRANSACTION_TYPES = ["withdraw","deposit"]
-
-  validates :bank_account, presence: true
-  validates :amount, presence: true, numericality: true
-  validates :transaction_number, presence: true, uniqueness: true
-  validates :transaction_type, presence: true, inclusion: { in: TRANSACTION_TYPES}
-
-  before_validation :load_defaults
-
-  def load_defaults
-    if self.new_record?
-      self.transaction_number = SecureRandom.uuid
-    end
-  end
-end
-```
-
-#### Validate new transaction 
-app/operations/bank_accounts/validate_new_transaction.rb
-```ruby
-module BankAccounts
-    class ValidateNewTransaction
-        def initialize(amount: , transaction_type: , bank_account_id: )
-            @amount = amount.try(:to_i) 
-            @transaction_type = transaction_type
-            @bank_account_id = bank_account_id
-            @bank_account = BankAccount.where(id: @bank_account_id).first
-            @errors = []
-        end
-
-        def execute!
-            validate_existence_of_account!
-
-            if @transaction_type == "withdraw" and @bank_account.present?
-                validate_withdrawal!
-            end
-            @errors
-        end
-
-        private
-
-        def validate_withdrawal!
-            if @bank_account.balance - @amount < 0.00
-                @errors << "Not enough money"
-            end
-        end
-
-        def validate_existence_of_account!
-            if @bank_account.blank?
-                @errors << "Account not found"
-            end
-
-        end
-    end
-end
-```
-#### HAML example
-```html
-<div class="container">
- <div class="row">
-  <div class="col-md-12"></div>
- </div>
-</div>
-
-%div.container
- %div.row
-  %div.col-md-12
-
-.container
- .row
-  .col-md-12
-```
-
-## Features
-List of features ready and TODOs for future development
-* HAML files
-* Ajax calls 
-
-To-do list:
-* Add styles!
-* Solve the problem with the lack of javascript precompile in heroku server
-
-## Status
-Project is: _in progress_
-
-## Inspiration
-An idea for an application that I liked very much - Inspired by devlogs youtube videos - I decided that I want to do my own version of "simple banking app". It seems easy for me to expand in the future. 
-
-## Contact
-Created by [@lapinskap](https://www.facebook.com/paulina.lapinska99) - feel free to contact me!
+Thank you for choosing JRNDA BANK for your banking needs. We look forward to serving you and simplifying your financial journey!
